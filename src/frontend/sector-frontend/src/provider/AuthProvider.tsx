@@ -28,9 +28,6 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
                     setWasLoaded(true)
                 }
             })
-            .catch(reason => {
-                setUser(null)
-            })
             .finally(() => {
                 setWasLoaded(true)
             })

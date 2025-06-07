@@ -7,21 +7,25 @@ import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import ru.cool.sectorsite.security.JwtFilter
 import ru.cool.sectorsite.service.UserService
 
 @Configuration
-class SecurityConfiguration(val userDetailsService: UserService) {
+class SecurityConfiguration(val userDetailsService: UserService, val jwtFilter: JwtFilter) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         val publicUrls = arrayOf(
             "/", "/registration", "/login", "/news", "/api/**", "/images/**")
         http
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             .cors{}
             .csrf {
                 it.disable()
@@ -29,6 +33,9 @@ class SecurityConfiguration(val userDetailsService: UserService) {
             .authorizeHttpRequests{
                 it.requestMatchers("/users/**", "/shop/**").authenticated()
                     .requestMatchers(*publicUrls).permitAll()
+            }
+            .sessionManagement{
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
         return http.build()
     }
