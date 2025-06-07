@@ -13,7 +13,7 @@ const HeaderComponent = () => {
     return (
         <header className="header-wrapper">
             <div className="header-wrapper__title">
-                <h1><Link to="/">Сектор 5661</Link></h1>
+                <h1><Link to="/">StalkerZ</Link></h1>
             </div>
             <div className="header-buttons">
                 <div className="header-buttons__button">

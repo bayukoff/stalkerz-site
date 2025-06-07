@@ -75,46 +75,21 @@ tasks.register("buildFrontend", Exec::class) {
     commandLine = listOf("cmd.exe", "/c", "npm", "run", "build")
 }
 
-tasks.register("cleanFrontend", Delete::class) {
+tasks.register("runFrontend", Exec::class){
     group = "frontend"
-    val staticDir = file("src/main/resources/static")
-    staticDir.listFiles()?.forEach { file ->
-        if (file.name != "images") {
-            delete(file)
-        }
-    }
-}
-
-tasks.register<Copy>("copyFrontendToResources") {
-    group = "frontend"
-    from("src/frontend/sector-frontend/build")
-    into("src/main/resources/static")
-    includeEmptyDirs = true
-}
-
-tasks.register("prepareFrontend") {
-    group = "frontend"
-    description = "Готовит фронтенд и копирует в static"
-    dependsOn("cleanFrontend", "copyFrontendToResources")
-
-    doLast {
-        println("✅ Все файлы скопированы.")
-    }
-}
-
-tasks.register<Task>("runWithFrontend") {
-    group = "frontend"
-
-    dependsOn("buildFrontend","prepareFrontend")
-    finalizedBy("bootRun")
-}
-
-tasks.named<ProcessResources>("processResources") {
-    dependsOn("prepareFrontend")
+    workingDir("src/frontend/sector-frontend")
+    commandLine = listOf("cmd.exe", "/c", "npm", "start")
 }
 
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     archiveBaseName.set("sector-backend")
     archiveVersion.set("")
     archiveClassifier.set("")
+}
+
+tasks.register<Exec>("containerize"){
+    dependsOn("bootJar", "buildFrontend")
+
+    commandLine = listOf("docker-compose", "up", "--build")
+
 }

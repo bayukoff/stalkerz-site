@@ -9,6 +9,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 class SectorSiteApplication
 
 fun main(args: Array<String>) {
-    println("🔍 SPRING_DATASOURCE_URL = ${System.getenv("SPRING_DATASOURCE_URL")}")
     runApplication<SectorSiteApplication>(*args)
 }

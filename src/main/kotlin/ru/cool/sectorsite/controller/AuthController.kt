@@ -40,4 +40,16 @@ class AuthController(
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpStatus.UNAUTHORIZED)
     }
+
+    @PostMapping("/logout")
+    fun logout(request: HttpServletRequest): ResponseEntity<*> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        if (authentication == null || !authentication.isAuthenticated || authentication.principal == "anonymousUser") {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You're not logged in")
+        }
+
+        SecurityContextHolder.clearContext()
+        request.session.invalidate()
+        return ResponseEntity.ok("OK")
+    }
 }

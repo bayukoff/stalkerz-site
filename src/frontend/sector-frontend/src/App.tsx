@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Layout from "./components/Layout";
 import User from "./pages/User";
+import PrivateRoute from "./util/PrivateRoute";
 
 function App() {
   return (
@@ -17,7 +18,11 @@ function App() {
             <Route path="/shop" element={<Shop/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/registration" element={<Registration/>}/>
-            <Route path="/users/:param" element={<User/>}/>
+            <Route path="/users/:param" element={
+                <PrivateRoute>
+                    <User/>
+                </PrivateRoute>}
+            />
         </Route>
       </Routes>
   );

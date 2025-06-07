@@ -59,6 +59,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         return response.status
     }
 
+
     const logout = async () => {
         const response = await fetch(`${API_URL}/auth/logout`, {
             method: "POST",
@@ -67,7 +68,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         if(!response.ok) {
             throw Error("Ошибка при логаунте")
         }
-        setWasLoaded(false)
+        setUser(null)
+        return response.status;
     }
 
     return (

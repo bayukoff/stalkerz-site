@@ -12,7 +12,7 @@ services:
     networks:
       - sector
   frontend:
-    build: 'src/frontend/sector-frontend/'
+    build: 'src/frontend/'
     volumes:
       - './src/frontend/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro'
     ports:

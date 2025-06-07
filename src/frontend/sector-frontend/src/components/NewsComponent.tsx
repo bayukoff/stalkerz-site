@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {NewsType} from "../types/NewsType";
 import NewsService from "../services/NewsService";
-import {Link} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 
 /**

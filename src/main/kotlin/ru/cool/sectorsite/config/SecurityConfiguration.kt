@@ -20,7 +20,7 @@ class SecurityConfiguration(val userDetailsService: UserService) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         val publicUrls = arrayOf(
-            "/", "/**", "/registration", "/login", "/news", "/api/**")
+            "/", "/registration", "/login", "/news", "/api/**", "/images/**")
         http
             .cors{}
             .csrf {
@@ -30,7 +30,6 @@ class SecurityConfiguration(val userDetailsService: UserService) {
                 it.requestMatchers("/users/**", "/shop/**").authenticated()
                     .requestMatchers(*publicUrls).permitAll()
             }
-
         return http.build()
     }
 

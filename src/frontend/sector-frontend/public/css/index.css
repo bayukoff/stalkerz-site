@@ -1,6 +1,8 @@
 :root{
     --text-border: 2px 2px 2px black;
-    --text-font: "Arial", serif
+    --text-font: "Arial", serif;
+    --bg-color: rgba(202, 201, 189, 0.74);
+    --bg-sub-color: rgba(189, 189, 189, 0.6)
 }
 
 input{
@@ -11,7 +13,7 @@ body{
     margin: 0 0;
     font-family: "Arial", serif;
     height: 1500px;
-    background-image: url("/assets/bg.png");
+    background-image: url("/assets/background.png");
     background-size: cover;
     background-attachment: fixed;
 }
@@ -33,12 +35,11 @@ a {
     justify-content: space-between;
     color: white;
     text-shadow: var(--text-border);
-    background-color: bisque;
     position: fixed;
     width: 100%;
     z-index: 100;
     image-rendering: crisp-edges;
-    background-image: url("/assets/brick.png");
+    background-image: url("/assets/planks_oak.png");
     background-size: 79.88px 79.88px;
 }
 
@@ -76,13 +77,13 @@ a {
 
 .main-content{
     width: 80%;
-    background-color: rgba(189, 189, 189, 0.6);
+    background-color: var(--bg-sub-color);
     padding: 15px;
 }
 
 .main__slide-show{
     width: 100%;
-    background-color: antiquewhite;
+    background-color: var(--bg-color);
 }
 
 .updates{
@@ -93,7 +94,7 @@ a {
 
 .aside{
     width: 15%;
-    background-color: #9e9e9e;
+    background-color: var(--bg-sub-color);
     margin-left: 20px;
     color: white;
     text-shadow: var(--text-border);
@@ -161,7 +162,7 @@ a {
 }
 
 .form-submit{
-    background-color: #fdf3b2;
+    background-color: var(--bg-color);
     padding: 15px;
     border-radius: 10px;
     cursor: pointer;
@@ -182,7 +183,7 @@ a {
     display: flex;
     flex-direction: column;
     padding: 25px;
-    background-color: rgba(243, 238, 206, 0.74);
+    background-color: var(--bg-color);
     margin: 15px;
 }
 
@@ -222,5 +223,10 @@ a {
     text-decoration: none;
     list-style: none;
     background-color: #ff3f3fa1;
+    padding: 15px;
+}
+
+.user{
+    background-color: rgba(255, 238, 227, 0.84);
     padding: 15px;
 }

@@ -15,7 +15,6 @@ const RegistrationComponent = () => {
     const{data, isSuccess, isError, mutate, error} = useMutation({
         mutationFn: () => AuthService.registerUser({username: login, email, password}),
     })
-    console.log(isSuccess)
     const navigate = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
