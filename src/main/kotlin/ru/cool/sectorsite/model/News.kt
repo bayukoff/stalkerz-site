@@ -15,7 +15,7 @@ data class News(
     val newsText: String = "",
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    val createdAd: Date,
+    val createdAt: Date = Date(),
     @Column(name = "image_url")
-    val imageUrl: String = "",
+    val imageUrl: String? = "",
 )

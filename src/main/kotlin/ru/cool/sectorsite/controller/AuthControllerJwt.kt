@@ -23,9 +23,6 @@ class AuthControllerJwt(private val userService: UserService, private val jwtUti
     @PostMapping
     fun authUser(@RequestBody user: UserDto, response: HttpServletResponse): ResponseEntity<*> {
         val userDetails = userService.loadUserByUsername(user.username)
-//        if (userDetails == null) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
-//        }
         val auth = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
         SecurityContextHolder.getContext().authentication = auth
         val token = jwtUtil.generateToken(userDetails.username)

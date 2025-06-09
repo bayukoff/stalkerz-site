@@ -12,12 +12,12 @@ class UserValidator(private val userService: UserService): Validator {
 
     override fun validate(target: Any, errors: Errors) {
         val incomingUserDto = target as UserDto
-        var dbUser = userService.convertToDto(userService.getByUsername(incomingUserDto.username))
+        var dbUser = userService.getByUsername(incomingUserDto.username)
         if (dbUser != null)
             if (incomingUserDto.username == dbUser.username)
                 errors.rejectValue("username", "", "Пользователь с таким логином уже зарегистрирован!")
         if(dbUser == null){
-            dbUser = userService.convertToDto(userService.getByEmail(incomingUserDto.email!!))
+            dbUser = userService.getByEmail(incomingUserDto.email)
             if (incomingUserDto.email == dbUser?.email)
                 errors.rejectValue("email", "", "Пользователь с данной почтой уже зарегистрирован!")
         }

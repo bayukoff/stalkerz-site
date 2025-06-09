@@ -14,7 +14,7 @@ data class UserDto(
     val username: String,
     @field:Email(message = "Неправильный формат email!")
     @field:NotEmpty(message = "Поле с почтой не долнжно быть пустым!")
-    val email: String?,
+    val email: String = "",
     @field:Pattern(
         regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@!#$%^&*]).{8,}",
         message = "Пароль должен содержать заглавную букву, цифры и знаки !@#$%^&")

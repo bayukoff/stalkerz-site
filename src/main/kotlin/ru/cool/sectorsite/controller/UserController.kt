@@ -14,10 +14,11 @@ import ru.cool.sectorsite.validator.UserValidator
 class UserController(
     val userService: UserService,
     val userValidator: UserValidator) {
+
     @GetMapping
     fun users(): List<UserDto>{
         return userService.getAll().map {
-            UserDto(it.username, it.email, it.password)
+            userService.convertToDto(it)
         }
     }
 
