@@ -1,10 +1,10 @@
 import React, {use, useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {AuthContext} from "../context/AuthContext";
+import {AuthContext, useAuth} from "../context/AuthContext";
 
 const HeaderComponent = () => {
 
-    const{user, wasLoaded} = useContext(AuthContext)
+    const{user, wasLoaded} = useAuth()
     const[isAuthenticated, setAuthenticated] = useState(false)
 
     if (!wasLoaded)

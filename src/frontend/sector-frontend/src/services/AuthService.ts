@@ -1,23 +1,22 @@
-import UserDataType from "../types/UserDataType";
+import UserType from "../types/UserType";
 
-class AuthService{
-    private static API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.REACT_APP_API_URL
 
-    static async registerUser(userData: UserDataType){
-        const response = await fetch(`${this.API_URL}/users/new`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify(userData),
-        });
+export async function registerUser(userData: UserType, refresh: () => Promise<Response>){
+    const response = await fetch(`${API_URL}/users/new`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(userData),
+    });
 
-        if (!response.ok) {
-            const message = await response.json() as {message: string}; // получаем текст ошибки
+    if (!response.ok) {
+        const message = await response.json() as {message: string};
+        const refreshResponse = await refresh()
+        if (!refreshResponse.ok)
             throw new Error(message.message || "Ошибка при регистрации");
-        }
 
-        return await response.json();
     }
-}
 
-export default AuthService
+    return await response.json();
+}

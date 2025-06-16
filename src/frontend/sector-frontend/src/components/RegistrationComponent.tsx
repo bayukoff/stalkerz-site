@@ -1,19 +1,20 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import UserDataType from "../types/UserDataType";
-import AuthService from "../services/AuthService";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
+import {registerUser} from "../services/AuthService";
+import {useAuth} from "../context/AuthContext";
 
 const RegistrationComponent = () => {
 
+    const {refresh} = useAuth()
     const[login, setLogin] = useState<string>('')
     const[email, setEmail] = useState<string>('')
     const[password, setPassword] = useState<string>('')
     const[passwordConfirmation, setPasswordConfirmation] = useState<string>('')
     const[isPasswordCorrect, setPasswordCorrect] = useState(true);
 
-    const{data, isSuccess, isError, mutate, error} = useMutation({
-        mutationFn: () => AuthService.registerUser({username: login, email, password}),
+    const{isSuccess, isError, mutate, error} = useMutation({
+        mutationFn: () => registerUser({username: login, email, password}, refresh),
     })
     const navigate = useNavigate()
 
@@ -22,7 +23,6 @@ const RegistrationComponent = () => {
         mutate()
         if (isSuccess)
             navigate("/")
-
     }
 
     const confirmPassword = () => {

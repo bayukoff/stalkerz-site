@@ -1,6 +1,7 @@
 import {ReactNode, useEffect, useState} from "react";
-import UserDataType from "../types/UserDataType";
+import UserType from "../types/UserType";
 import {AuthContext} from "../context/AuthContext";
+import {EnumRole} from "../enum/EnumRole";
 
 type AuthProviderProps = {
     children: ReactNode;
@@ -10,27 +11,35 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
     const API_URL = process.env.REACT_APP_API_URL
 
-    const[user, setUser] = useState<UserDataType | null>()
+    const[user, setUser] = useState<UserType | null>()
+    const[tkn, setTkn] = useState<string>("")
     const[wasLoaded, setWasLoaded] = useState<boolean>(false)
 
-    useEffect(() => {
-        fetch(`${API_URL}/auth/check`, {
+    const getToken = () => {
+        return tkn
+    }
+
+    const refresh = async (callback?: () => any) => {
+        const response = await fetch(`${API_URL}/auth/refresh`, {
             credentials: "include"
         })
-            .then(response => {
-                if (response.ok)
-                    return response.json() as Promise<UserDataType>
-                return
-            })
-            .then(data => {
-                if (data !== undefined) {
-                    setUser({username: data.username})
-                    setWasLoaded(true)
-                }
-            })
-            .finally(() => {
-                setWasLoaded(true)
-            })
+        if (!response.ok) {
+            setWasLoaded(true)
+            return response
+        }
+        const data = await response.json() as {accessToken: string}
+        const accessToken = data.accessToken
+        setTkn(accessToken)
+        const decoded = JSON.parse(atob(accessToken.split(".")[1]))
+        setUser({username: decoded.username, email:decoded.email, role: decoded.roles.map((role: string, index: number) => EnumRole[index])})
+        if (callback != null)
+            callback()
+        setWasLoaded(true)
+        return response
+    }
+
+    useEffect(() => {
+        refresh()
     }, []);
 
     /**
@@ -49,28 +58,41 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
             credentials: "include"
         })
         if (!response.ok) {
-            throw Error("Аунтентификация не удалась!")
+            const errorMessage = await response.json()
+            throw Error(errorMessage.message)
         }
-        const data = await response.json() as UserDataType
-        setUser({username: data.username})
-        return response.status
+        const data = await response.json()
+        const accessToken = data.accessToken
+        const decoded = JSON.parse(atob(accessToken.split(".")[1]))
+        setTkn(accessToken)
+        setUser({username: decoded.username, email:decoded.email, role: decoded.roles.map((role: string, index: number) => EnumRole[index])})
     }
-
 
     const logout = async () => {
         const response = await fetch(`${API_URL}/auth/logout`, {
             method: "POST",
+            headers: {
+                "Context-Type": "application/json",
+                "Authorization": `Bearer ${tkn}`
+            },
             credentials: "include"
         })
         if(!response.ok) {
-            throw Error("Ошибка при логаунте")
+            try {
+                const refreshResponse = await refresh()
+                if (refreshResponse.ok)
+                    console.log("success")
+            }catch (e){
+                throw new Error("Ошибка токена!")
+            }
         }
         setUser(null)
+        setTkn("")
         return response.status;
     }
 
     return (
-        <AuthContext.Provider value={{user, wasLoaded, login, logout}}>
+        <AuthContext.Provider value={{user, setUser, wasLoaded, login, logout, tkn, getToken, setTkn, refresh}}>
             {children}
         </AuthContext.Provider>
     )

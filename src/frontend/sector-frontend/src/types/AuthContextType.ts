@@ -1,8 +1,13 @@
-import UserDataType from "./UserDataType";
+import UserType from "./UserType";
 
 export type AuthContextType = {
-    user?: UserDataType | null;
+    user: UserType | null | undefined,
+    setUser: (user: UserType | null) => void,
     wasLoaded: boolean,
-    login?: (username: string, password: string) => Promise<number>;
-    logout?: () => Promise<number>;
+    login: (username: string, password: string) => Promise<void>,
+    logout: () => Promise<number>,
+    tkn: string,
+    getToken: () => string,
+    setTkn: (tkn: string) => void,
+    refresh: (callback?: () => any) => Promise<Response>
 }

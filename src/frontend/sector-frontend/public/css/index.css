@@ -2,7 +2,17 @@
     --text-border: 2px 2px 2px black;
     --text-font: "Arial", serif;
     --bg-color: rgba(202, 201, 189, 0.74);
-    --bg-sub-color: rgba(189, 189, 189, 0.6)
+    --bg-sub-color: rgba(189, 189, 189, 0.6);
+    --border-color: #505050;
+    --text-border2:
+            2px -2px 0 var(--border-color),
+            2px 0px 0 var(--border-color),
+            2px 2px 0 var(--border-color),
+            0px 2px 0 var(--border-color),
+            -2px 2px 0 var(--border-color),
+            -2px 0px 0 var(--border-color),
+            -2px -2px 0 var(--border-color),
+            0px -2px 0 var(--border-color);
 }
 
 input{
@@ -223,10 +233,5 @@ a {
     text-decoration: none;
     list-style: none;
     background-color: #ff3f3fa1;
-    padding: 15px;
-}
-
-.user{
-    background-color: rgba(255, 238, 227, 0.84);
     padding: 15px;
 }

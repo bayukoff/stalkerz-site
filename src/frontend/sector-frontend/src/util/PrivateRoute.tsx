@@ -1,9 +1,8 @@
-import {PropsWithChildren, ReactNode, useContext} from "react";
-import {AuthContext} from "../context/AuthContext";
+import {useAuth} from "../context/AuthContext";
 import {Navigate} from "react-router-dom";
 
 const PrivateRoute = ({children}: any) => {
-    const{wasLoaded, user} = useContext(AuthContext)
+    const{wasLoaded, user} = useAuth()
     if (!wasLoaded)
         return null
     if (user)

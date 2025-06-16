@@ -1,0 +1,132 @@
+:root{
+    --user-data-text: 1.2rem;
+}
+
+.user{
+    background-color: var(--bg-sub-color);
+    padding: 15px;
+    font-family: var(--text-font);
+    text-shadow: var(--text-border);
+    transition: .5s;
+}
+
+.user_wrapper{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.user__info{
+    flex-grow: 1;
+    display: flex;
+    color: white;
+
+}
+
+.user_data{
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user_avatar{
+    width: 25%;
+    height: 40vh;
+    min-height: 200px;
+}
+
+.user_data__text{
+    font-size: var(--user-data-text);
+}
+
+.logout_button{
+    align-self: flex-start;
+    font-size: var(--user-data-text);
+    padding: 10px;
+    background-color: rgba(108, 108, 108, 0.56);
+    color: white;
+    text-shadow: var(--text-border);
+    transition: .5s;
+    border: none;
+}
+
+.logout_button:hover{
+    cursor: pointer;
+    background-color: rgba(156, 156, 156, 0.6);
+}
+
+.change_data__button{
+    font-size: var(--user-data-text);
+    color: #e4e4e4;
+    border-bottom: 2px solid #e4e4e4;
+    align-self: flex-start;
+    transition: .5s;
+}
+
+.change_data__button:hover{
+    cursor: pointer;
+    color: #d1d1d1;
+}
+
+.user_changers{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hide{
+    border-bottom: none;
+    color: #cfcfcf;
+}
+
+.change_email{
+    color: white;
+}
+
+.change_data__form{
+    display: flex;
+    color: white;
+    flex-direction: column;
+    /*font-weight: bold;*/
+    font-size: var(--user-data-text);
+    width: 25%;
+}
+
+.change_data__input{
+    background-color: rgb(118 118 115 / 74%);
+    padding: 8px;
+    margin-top: 10px;
+    box-shadow: 1px 0px 10px #959595 inset;
+}
+
+.change_data__submit{
+    margin-top: 10px;
+    align-self: flex-start;
+    padding: 10px;
+    background-color: rgba(108, 108, 108, 0.56);
+    color: white;
+    text-shadow: var(--text-border);
+    transition: .5s;
+    border: none;
+}
+
+.change_data__submit:hover{
+    cursor: pointer;
+    background-color: rgba(156, 156, 156, 0.6);
+}
+
+.status{
+    margin-top: 10px;
+}
+
+.status.error{
+    color: #ff2929;
+    text-shadow: 1px 1px 3px black;
+    font-weight: 700;
+}
+
+.status.success{
+    color: #50d32c;
+    text-shadow: 1px 1px 3px black;
+    font-weight: 700;
+}

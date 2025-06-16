@@ -1,31 +1,23 @@
 import React, {useContext, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import UserDataType from "../types/UserDataType";
-import {AuthContext} from "../context/AuthContext";
+import {useAuth} from "../context/AuthContext";
+import {useMutation} from "@tanstack/react-query";
 
 
 const LoginComponent = () => {
-    const {login} = useContext(AuthContext)
+    const {login} = useAuth()
     const[username, setUsername] = useState('')
     const[password, setPassword] = useState('')
-    const[authStatus, setAuthStatus] = useState<number>()
+    const{error, mutate, isError} = useMutation({
+        mutationFn: async () => login!!(username, password),
+        onSuccess: data => navigate("/")
+    })
 
     const navigate = useNavigate()
 
     const handleRequest = async (event: React.FormEvent) => {
         event.preventDefault()
-
-        const userData:UserDataType = {username: username, password: password}
-
-        let status: number = 0;
-        if (login) {
-            status = await login(userData.username, userData.password!!);
-        }
-        setAuthStatus(status)
-        if (status === 200)
-            navigate("/")
-        else
-            throw Error("Ошибка аутентификации: " + status)
+        mutate()
     }
 
     return(
@@ -44,6 +36,7 @@ const LoginComponent = () => {
                         <input className="form-input" type="text" placeholder="Логин" onChange={(event) => setUsername(event.target.value)}/>
                         <input className="form-input" type="password" placeholder="Пароль" onChange={(event) => setPassword(event.target.value)}/>
                         <input className="form-submit" type="submit" value="Войти"/>
+                        {isError ? <p className="status error">{error.message}</p> : null}
                     </form>
                 </div>
                 <div style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>

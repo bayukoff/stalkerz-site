@@ -1,5 +1,5 @@
 import React from "react";
-import UserComponent from "../components/UserComponent";
+import UserComponent from "../components/user-components/UserComponent";
 import SideComponent from "../components/SideComponent";
 
 const User = () => {
