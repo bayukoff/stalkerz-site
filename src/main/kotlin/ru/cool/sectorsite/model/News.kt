@@ -2,6 +2,7 @@ package ru.cool.sectorsite.model
 
 import jakarta.persistence.*
 import org.springframework.data.jpa.repository.Temporal
+import java.io.Serializable
 import java.util.*
 
 @Table(name = "news")
@@ -18,4 +19,4 @@ data class News(
     val createdAt: Date = Date(),
     @Column(name = "image_url")
     val imageUrl: String? = "",
-)
+): Serializable

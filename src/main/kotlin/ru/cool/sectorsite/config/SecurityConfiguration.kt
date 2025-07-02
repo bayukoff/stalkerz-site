@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -18,14 +19,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import ru.cool.sectorsite.security.JwtFilter
 import ru.cool.sectorsite.service.UserService
 
+@EnableMethodSecurity
 @Configuration
 class SecurityConfiguration(val userDetailsService: UserService, val jwtFilter: JwtFilter) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         val publicUrls = arrayOf(
-            "/", "/registration", "/login", "/news", "/api/**", "/images/**")
+            "/", "/registration", "/login", "/news", "/api/**", "/assets/**")
         http
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             .cors{}
             .csrf {
                 it.disable()
@@ -37,6 +38,7 @@ class SecurityConfiguration(val userDetailsService: UserService, val jwtFilter: 
             .sessionManagement{
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }
 
@@ -61,7 +63,7 @@ class SecurityConfiguration(val userDetailsService: UserService, val jwtFilter: 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val corsConfiguration = CorsConfiguration()
-        corsConfiguration.allowedOrigins = listOf("http://localhost:3000")
+        corsConfiguration.allowedOrigins = listOf("http://localhost", "http://85.237.32.17", "http://localhost:3000")
         corsConfiguration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH")
         corsConfiguration.allowedHeaders = listOf("*")
         corsConfiguration.allowCredentials = true

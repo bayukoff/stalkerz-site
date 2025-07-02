@@ -1,5 +1,5 @@
 import {useChangeEmail} from "../../services/UserService";
-import {FormEvent, RefObject, useRef, useState} from "react";
+import {FormEvent, RefObject, useEffect, useRef, useState} from "react";
 
 function UserChangeEmailComponent(){
 
@@ -13,8 +13,12 @@ function UserChangeEmailComponent(){
         if (email != null) {
             setEmail(email)
             mutation.mutate()
+            console.log(mutation.error)
         }
     }
+    useEffect(() => {
+
+    }, [email]);
 
     return (
         <form onSubmit={(event) => changeUserEmail(event)} className="change_data__form">

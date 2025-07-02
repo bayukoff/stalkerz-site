@@ -35,13 +35,13 @@ const LoginComponent = () => {
                     }}>
                         <input className="form-input" type="text" placeholder="Логин" onChange={(event) => setUsername(event.target.value)}/>
                         <input className="form-input" type="password" placeholder="Пароль" onChange={(event) => setPassword(event.target.value)}/>
-                        <input className="form-submit" type="submit" value="Войти"/>
+                        <input className="button" type="submit" value="Войти"/>
                         {isError ? <p className="status error">{error.message}</p> : null}
                     </form>
                 </div>
                 <div style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
                     <h3>Нет аккаунта?</h3>
-                    <Link to="/registration"><button className="form-submit">Зарегистрироваться!</button></Link>
+                    <Link to="/registration"><button className="button">Зарегистрироваться!</button></Link>
                 </div>
         </div>
     )

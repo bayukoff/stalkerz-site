@@ -1,70 +1,45 @@
-import {useMutation} from "@tanstack/react-query";
 import {useAuth} from "../context/AuthContext";
-import UserType from "../types/UserType";
+import {useMutationRequest} from "../util/RequestProvider";
+import {EnumMethod} from "../util/EnumMethod";
 
 const API_URL: string | undefined = process.env.REACT_APP_API_URL
 
 
 export function useChangeEmail(email: string){
     const {user, setUser, refresh, getToken} = useAuth()
-    const username = user?.username
-    const changeEmail = async () => {
-        const currentToken = getToken()
-        const response = await fetch(`${API_URL}/users/${username}/changeEmail`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${currentToken}`
-            },
-            body: JSON.stringify({username: username, email: email}),
-            credentials: "include"
-        })
-        if (!response.ok) {
-            const error = await response.json()
-            throw new Error(error.message)
-        }
-        setUser({username: username!!, email})
-        return await response.json() as UserType
-    }
-    return useMutation({
-        mutationFn: changeEmail,
-        onError: async error => {
-            const refreshResponse = await refresh(changeEmail)
-            if (!refreshResponse.ok){
-                throw error
-            }
-        }
-    })
+    const username = user!!.username
+
+    return useMutationRequest(`${API_URL}/users/${username}/changeEmail`, {
+        method: EnumMethod.PATCH,
+        body: JSON.stringify({username: username, email: email})
+    }, true, true, (data) => setUser({username, email, balance: user!!.balance}))
 }
 
 export function useChangePassword(password: string){
     const {user, refresh, getToken} = useAuth()
     const username = user?.username
-    const changePassword = async () => {
-        const currentToken = getToken()
-        const response = await fetch(`${API_URL}/users/${username}/changePassword`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${currentToken}`
-            },
-            body: JSON.stringify({username, password}),
-            credentials: "include"
-        })
-        if (!response.ok){
-            const error = await response.json()
-            throw new Error(error)
-        }
+
+    return useMutationRequest(`${API_URL}/users/${username}/changePassword`, {
+        method: EnumMethod.PATCH,
+        body: JSON.stringify({username, password})
+    }, true, true)
+}
+
+export function useSetBalance(username: string, balance: number, isAdd: boolean) {
+    const {user} = useAuth()
+    if (balance < 0){
+        throw new Error("Баланс не должен быть ниже нуля!")
     }
-    return useMutation(
-        {
-            mutationFn: changePassword,
-            onError: async error => {
-                const refreshResponse = await refresh(changePassword)
-                if (refreshResponse.ok)
-                    await changePassword()
-                throw new Error(error.message)
-            }
-        }
-    )
+
+    return useMutationRequest(`${API_URL}/users/${username}/balance`, {
+        method: isAdd ? EnumMethod.PATCH : EnumMethod.POST,
+        body: JSON.stringify({adminUsername: user!!.username, balance})
+    }, true, true)
+
+}
+
+export function useBan(username: string){
+    const banUser = async () =>{
+        const response = await fetch(`${API_URL}/`)
+    }
 }

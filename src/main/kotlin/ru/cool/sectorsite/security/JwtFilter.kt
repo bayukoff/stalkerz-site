@@ -5,11 +5,11 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import ru.cool.sectorsite.service.UserService
 import ru.cool.sectorsite.util.JwtUtil
-import kotlin.math.abs
 
 @Component
 class JwtFilter(
@@ -22,13 +22,19 @@ class JwtFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val cookiesToken = request.cookies?.firstOrNull { it.name == "jwt" }?.value
-        if (cookiesToken != null){
-            val username = jwtUtil.parseToken(cookiesToken)
-            val userDetails = userService.loadUserByUsername(username)
+        val header = request.getHeader("Authorization")
+        if (header != null && header.startsWith("Bearer ")) {
+            val token = header.substring(7)
+            val username = jwtUtil.validateToken(token)
 
-            val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
-            SecurityContextHolder.getContext().authentication = authentication
+            if (SecurityContextHolder.getContext().authentication == null) {
+                val userDetails = userService.loadUserByUsername(username)
+                val authentication = UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.authorities
+                )
+                authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                SecurityContextHolder.getContext().authentication = authentication
+            }
         }
         filterChain.doFilter(request, response)
     }

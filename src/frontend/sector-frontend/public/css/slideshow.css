@@ -4,7 +4,7 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    background-color: var(--bg-color);
+    background-color: var(--bg-sub-color);
     padding-top: 25px;
     padding-bottom: 25px;
 }
@@ -30,9 +30,13 @@
     flex-shrink: 0;
 }
 
-.slide-image__img{
-    width: 100%;
-    height: 100%;
+.slide-image{
+    display: flex;
+    justify-content: center;
+}
+
+.slide-image>img{
+    max-height: 650px;
 }
 
 .slideshow-buttons{
@@ -72,6 +76,8 @@
 }
 
 .slide__description{
-    border: 2px #919191 solid;
-    padding:15px ;
+    margin-top: 20px;
+    padding:15px;
+    background-color: rgba(106, 106, 106, 0.47);
+    border: 3px solid rgba(62, 62, 62, 0.47);
 }

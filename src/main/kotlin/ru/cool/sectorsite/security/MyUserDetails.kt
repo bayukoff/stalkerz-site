@@ -7,9 +7,8 @@ import ru.cool.sectorsite.model.User
 import java.util.*
 
 class MyUserDetails(val user: User): UserDetails {
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return Collections.singletonList(SimpleGrantedAuthority(user.role.name))
-    }
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
+        user.role.map { SimpleGrantedAuthority(it.name) }.toMutableList()
 
     override fun getPassword(): String = user.password
 

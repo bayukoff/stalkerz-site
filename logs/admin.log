@@ -1,0 +1,6 @@
+2025-07-02 18:33:44.937 [http-nio-8080-exec-3] INFO  r.c.s.aspect.ControllerLoggingAspect - Запрос на добавление баланса игроку Destor отправил админ Coolz, сумма 1000
+2025-07-02 18:33:44.941 [http-nio-8080-exec-3] INFO  r.c.s.controller.UserController - Запрос на добавление баланса игроку Destor отправил админ Coolz, сумма 1000
+2025-07-02 18:33:45.083 [http-nio-8080-exec-3] INFO  r.c.s.aspect.ControllerLoggingAspect - Баланс добавил игроку Destor админ Coolz
+2025-07-02 18:33:45.118 [http-nio-8080-exec-5] INFO  r.c.s.aspect.ControllerLoggingAspect - Запрос на добавление баланса игроку Destor отправил админ Coolz, сумма 1000
+2025-07-02 18:33:45.119 [http-nio-8080-exec-5] INFO  r.c.s.controller.UserController - Запрос на добавление баланса игроку Destor отправил админ Coolz, сумма 1000
+2025-07-02 18:33:45.136 [http-nio-8080-exec-5] INFO  r.c.s.aspect.ControllerLoggingAspect - Баланс добавил игроку Destor админ Coolz

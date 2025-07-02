@@ -1,7 +1,6 @@
 import {ReactNode, useEffect, useState} from "react";
 import UserType from "../types/UserType";
 import {AuthContext} from "../context/AuthContext";
-import {EnumRole} from "../enum/EnumRole";
 
 type AuthProviderProps = {
     children: ReactNode;
@@ -31,9 +30,10 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         const accessToken = data.accessToken
         setTkn(accessToken)
         const decoded = JSON.parse(atob(accessToken.split(".")[1]))
-        setUser({username: decoded.username, email:decoded.email, role: decoded.roles.map((role: string, index: number) => EnumRole[index])})
-        if (callback != null)
+        setUser({username: decoded.username, email:decoded.email, role: decoded.roles, balance: decoded.balance})
+        if (callback != null) {
             callback()
+        }
         setWasLoaded(true)
         return response
     }
@@ -65,7 +65,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         const accessToken = data.accessToken
         const decoded = JSON.parse(atob(accessToken.split(".")[1]))
         setTkn(accessToken)
-        setUser({username: decoded.username, email:decoded.email, role: decoded.roles.map((role: string, index: number) => EnumRole[index])})
+        setUser({username: decoded.username, email:decoded.email, role: decoded.roles, balance: decoded.balance})
     }
 
     const logout = async () => {

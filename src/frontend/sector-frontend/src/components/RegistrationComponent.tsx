@@ -14,7 +14,7 @@ const RegistrationComponent = () => {
     const[isPasswordCorrect, setPasswordCorrect] = useState(true);
 
     const{isSuccess, isError, mutate, error} = useMutation({
-        mutationFn: () => registerUser({username: login, email, password}, refresh),
+        mutationFn: () => registerUser({username: login, email, password, balance: 0}, refresh),
     })
     const navigate = useNavigate()
 
@@ -69,7 +69,7 @@ const RegistrationComponent = () => {
                                       </ul>
                                   ) : null
                               }
-                              <input className="form-submit" type="submit" onClick={confirmPassword}/>
+                              <input className="button" type="submit" onClick={confirmPassword}/>
                           </>
                       )}
                       {isSuccess && (<p style={{color: 'green'}}>Регистрация прошла успешно!</p>)}

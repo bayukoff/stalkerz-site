@@ -7,7 +7,9 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Layout from "./components/Layout";
 import User from "./pages/User";
-import PrivateRoute from "./util/PrivateRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+import Panel from "./pages/Panel";
+import PanelRoute from "./routes/PanelRoute";
 
 function App() {
   return (
@@ -23,6 +25,11 @@ function App() {
                     <User/>
                 </PrivateRoute>}
             />
+            <Route path="/panel/:param" element={
+                <PanelRoute>
+                    <Panel />
+                </PanelRoute>
+            }/>
         </Route>
       </Routes>
   );

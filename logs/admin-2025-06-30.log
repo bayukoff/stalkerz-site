@@ -1,0 +1,4 @@
+2025-06-30 13:48:42.279 [http-nio-8080-exec-5] INFO  r.c.s.controller.UserController - Запрос отправил админ Coolz
+2025-06-30 13:52:37.376 [http-nio-8080-exec-8] INFO  r.c.s.controller.UserController - Запрос на изменение отправил админ Coolz, сумма 6000
+2025-06-30 13:54:58.986 [http-nio-8080-exec-2] INFO  r.c.s.controller.UserController - Запрос на добавление баланса игроку Coolz отправил админ Coolz, сумма 123456789
+2025-06-30 15:00:03.688 [http-nio-8080-exec-6] INFO  r.c.s.controller.UserController - Запрос на добавление баланса игроку Coolz отправил админ Coolz, сумма 1000

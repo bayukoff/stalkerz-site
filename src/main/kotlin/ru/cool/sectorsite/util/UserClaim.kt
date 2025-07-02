@@ -1,3 +1,5 @@
 package ru.cool.sectorsite.util
 
-data class UserClaim()
+import ru.cool.sectorsite.model.UserRole
+
+data class UserClaim(var username: String, var email: String, var roles: MutableSet<UserRole>, var balance: Int)

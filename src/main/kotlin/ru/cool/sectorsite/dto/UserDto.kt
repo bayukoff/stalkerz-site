@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
+import ru.cool.sectorsite.model.UserRole
 
 data class UserDto(
     @field:NotEmpty(message = "Имя пользователя не должно быть пустым!")
@@ -19,5 +20,7 @@ data class UserDto(
         regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@!#$%^&*]).{8,}",
         message = "Пароль должен содержать заглавную букву, цифры и знаки !@#$%^&")
     @field:NotEmpty
-    val password: String
+    val password: String = "",
+    val role: MutableSet<UserRole> = mutableSetOf(),
+    val balance: Int = 0
 )

@@ -1,10 +1,13 @@
 package ru.cool.sectorsite.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.*
 import ru.cool.sectorsite.dto.NewsDto
+import ru.cool.sectorsite.model.News
+import ru.cool.sectorsite.response.MessageResponse
 import ru.cool.sectorsite.service.NewsService
 import ru.cool.sectorsite.service.UserService
 
@@ -13,6 +16,9 @@ import ru.cool.sectorsite.service.UserService
 class NewsController(
     private val newsService: NewsService
 ) {
+
+    private val logger = LoggerFactory.getLogger(NewsController::class.java)
+
     @GetMapping
     fun getAllNews(): List<NewsDto>{
         return newsService.getNews().map {
@@ -33,6 +39,14 @@ class NewsController(
     @GetMapping("/pages")
     fun getAmountPages(): Int{
         return newsService.getNewsAmount()
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/new")
+    fun addNews(@RequestBody dto: NewsDto): ResponseEntity<MessageResponse> {
+        newsService.add(dto)
+        logger.info("Новость добавлена")
+        return ResponseEntity.status(HttpStatus.OK).body(MessageResponse("Новость успешно добавлена!"))
     }
 
 }

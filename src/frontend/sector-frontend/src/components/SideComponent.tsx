@@ -26,7 +26,7 @@ const SideComponent = () => {
             </div>
             <div className="aside__content">
                 <div className="aside-title">
-                    <h2><a target="_blank" href="https://t.me/sector5661">Telegram-канал</a></h2>
+                    <h2><a target="_blank" href="https://t.me/stalkerz_official">Telegram-канал</a></h2>
                 </div>
             </div>
             <div className="aside__content">

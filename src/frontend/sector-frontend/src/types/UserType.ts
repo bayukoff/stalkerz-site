@@ -4,7 +4,8 @@ type UserType = {
     username: string,
     email?: string,
     password?: string,
-    role?: EnumRole
+    balance: number
+    role?: EnumRole[],
 }
 
 export default UserType
