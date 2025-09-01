@@ -55,7 +55,7 @@ class AuthControllerJwt(
             }catch (e: BadCredentialsException){
                 return ResponseEntity.badRequest().body(MessageResponse("Неверный пароль!"))
             }
-            return ResponseEntity.ok(AccessTokenResponse(accessToken)) //токен
+            return ResponseEntity.ok(AccessTokenResponse(accessToken))
         }catch(e: UserNotFoundException){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(MessageResponse("Пользователь не найден!"))
         }

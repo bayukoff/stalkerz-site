@@ -14,7 +14,7 @@ import java.time.Duration
 @EnableCaching
 class RedisConfiguration {
     @Bean
-    fun redisConnectionFactory(): RedisConnectionFactory = LettuceConnectionFactory("localhost", 6379)
+    fun redisConnectionFactory(): RedisConnectionFactory = LettuceConnectionFactory("redis", 6379)
 
     @Bean
     fun cacheManager(redisConnectionFactory: RedisConnectionFactory): CacheManager{
