@@ -42,7 +42,7 @@ class UserControllerTest {
     @Test
     fun `test get all users`(){
         val users = listOf(User("Coolik", "!Cool2929224", "coolik15128@cool.cool"), User("Coolik124", "!Cool29292212414", "coolik15128@cool.cool"))
-        whenever(userService.getAll()).thenReturn(users)
+        whenever(userService.getAllDto()).thenReturn(users.map { UserDto(it.username, it.email) })
         mockMvc.get("/api/users").andExpect {
             status { isOk() }
             content { jsonPath("$", hasSize<Int>(2)) }

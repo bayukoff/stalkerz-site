@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.security.crypto.password.PasswordEncoder
 import ru.cool.sectorsite.mapper.UserMapper
@@ -25,9 +26,6 @@ import kotlin.test.assertTrue
 
 @ExtendWith(MockitoExtension::class)
 class UserServiceTest {
-
-    @Mock
-    private lateinit var userRepository: UserRepository
 
     @Mock
     private lateinit var cacheWriteService: UserCacheWriteService
@@ -55,48 +53,38 @@ class UserServiceTest {
 
     @Test
     fun `test get by email`(){
-        whenever(userRepository.findByEmail(correctUser.email)).thenReturn(Optional.of(correctUser))
         whenever(cacheReadService.getByEmail(correctUser.email)).thenReturn(correctUser)
         assertNotNull(userService.getByEmail(correctUser.email))
     }
 
     @Test
     fun `test get by username`(){
-        whenever(userRepository.findByUsername(correctUser.username)).thenReturn(Optional.of(correctUser))
+        whenever(cacheReadService.getByUsername(correctUser.username)).thenReturn(correctUser)
         assertNotNull(userService.getByUsername(correctUser.username))
     }
 
     @Test
     fun `test get by id`(){
-        whenever(userRepository.findById(correctUser.id)).thenReturn(Optional.of(correctUser))
+        whenever(cacheReadService.getById(correctUser.id)).thenReturn(correctUser)
         assertNotNull(userService.getById(correctUser.id))
     }
 
     @Test
     fun `test load by username`(){
-        whenever(userRepository.findByUsername(correctUser.username)).thenReturn(Optional.of(correctUser))
+        whenever(cacheReadService.getByUsername(correctUser.username)).thenReturn(correctUser)
         assertDoesNotThrow { userService.loadUserByUsername(correctUser.username) }
     }
 
-    @Test
-    fun `test password encoding when add`(){
-        val encodedPassword = "ENCODE"
-        val userPassword = correctUser.password
-        whenever(passwordEncoder.encode(userPassword)).thenReturn(encodedPassword)
-        userService.add(correctUser)
-        assertEquals(encodedPassword, correctUser.password)
-    }
 
     @Test
     fun `test save user when not exist`(){
-        whenever(userRepository.existsById(correctUser.id)).thenReturn(false)
-        whenever(passwordEncoder.encode(correctUser.password)).thenReturn("pass")
+        whenever(cacheWriteService.add(correctUser)).thenReturn(true)
         assertTrue { userService.add(correctUser) }
     }
 
     @Test
     fun `test save user when exists`(){
-        whenever(userRepository.existsById(correctUser.id)).thenReturn(true)
+        whenever(cacheWriteService.add(correctUser)).thenReturn(false)
         assertFalse {userService.add(correctUser)}
     }
 
