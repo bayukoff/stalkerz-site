@@ -1,13 +1,10 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-import org.springframework.boot.gradle.tasks.run.BootRun
-
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.4.5"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
-    id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "ru.cool"
