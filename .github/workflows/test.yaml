@@ -13,4 +13,4 @@ jobs:
           java-version: '17'
       - name: Test on gradle
         uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew test
+      - run: gradle test
